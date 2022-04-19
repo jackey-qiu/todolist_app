@@ -1,0 +1,9 @@
+.narbar {
+    display: flex;
+    justify-content: space-between;
+    .items {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+}

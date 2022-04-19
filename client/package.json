@@ -12,6 +12,8 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.3",
     "react-use-setstate": "^1.0.2",
+    "sass": "^1.50.1",
+    "scss": "^0.2.4",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
