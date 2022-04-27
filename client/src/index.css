@@ -131,11 +131,12 @@ h4 {
 
 .addPopup,
 .login,
+.logout,
 .register,
 .order {
-    position: fixed;
-    top: 32px;
-    right: 32px;
+    /* position: fixed; */
+    /* top: 32px; */
+    /* right: 32px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,8 +152,9 @@ h4 {
 }
 
 .login,
+.logout,
 .register {
-    right: 120px;
+    /* right: 120px; */
     font-size: 12px;
     border-radius: 15px;
     background-image: linear-gradient(to bottom right, green, blue);
@@ -164,9 +166,9 @@ h4 {
     font-size: 20px;
 }
 
-.register {
-    right: 220px;
-}
+/* .register { */
+    /* right: 220px; */
+/* } */
 
 .popup {
     position: fixed;

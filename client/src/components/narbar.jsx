@@ -1,19 +1,23 @@
 import "./narbar.scss";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import {useAuth} from './credentialContext'
 function NarBar(props) {
+	const parms = useParams();
+	const {loginInfo} = useAuth();
 	return (
 		<div className="narbar">
-			<h1>Welcome, {props.currentUserName}!</h1>
+			<h1>Welcome, {loginInfo.userName}!</h1>
 			<div className='items'>
 				<Link to="/register" style={{ textDecoration: "none" }}>
 					<span className="register">register</span>
 				</Link>
 				<Link to="/login" style={{ textDecoration: "none" }}>
-					<span className="login">login</span>
+					<span className="login">{loginInfo.loginState?"logout":"login"}</span>
 				</Link>
-				<Link to="/add" style={{ textDecoration: "none" }}>
+				{parms.id && 
+				<Link to={`/user/${parms.id}/add`} style={{ textDecoration: "none" }}>
 					<span className="addPopup">add</span>
-				</Link>
+				</Link>}
 			</div>
 		</div>)
 }
