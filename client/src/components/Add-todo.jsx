@@ -1,23 +1,26 @@
 import Axios from "axios";
-import {useState} from 'react';
-import { useNavigate, useParams, useLocation} from 'react-router-dom';
-import {useAuth} from '../components/credentialContext';
-import {addOneTodo, api_base} from '../pages/user/api-funcs';
+import { useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useAuth } from '../components/credentialContext';
+import { addOneTodo, api_base } from '../pages/user/api-funcs';
 
-export default function AddTodo() {
-    const navigate = useNavigate();
-    const {loginInfo} = useAuth();
+export default function AddTodo(props) {
+    const { todos, setTodos, urgents, setUrgents, passEvents, setPassEvents } = props;
+    const { loginInfo } = useAuth();
     const [newTodo, setNewTodo] = useState('');
     const [startTime, setStartTime] = useState('');
     const [addState, setAddState] = useState('Editing the new task!!');
 
-    const addOne = async ()=> {
+    const addOne = async () => {
         const data = await addOneTodo(newTodo, startTime, loginInfo.userName);
         console.log(data);
-        if(data){
-            setAddState('Successful to add one task, will be redirect in 2 seconds!')
-            setTimeout(()=> navigate(-1), 2000);
-        }else{
+        if (data) {
+            setTodos([...todos, data]);
+            setUrgents([...urgents, false]);
+            setPassEvents([...passEvents, false]);
+            setAddState('Successful to add one task!')
+            //setTimeout(() => onLogin(), 2000);
+        } else {
             setAddState('Fail to add task!')
         }
     }

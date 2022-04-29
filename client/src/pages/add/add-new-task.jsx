@@ -1,10 +1,8 @@
-import NarBar from "../../components/narbar";
-import AddNew from "../../components/Add-todo"
+import AddNew from "../../components/Add-todo";
 const Add = (props) => {
 	return (
 		<div>
-			<NarBar {...props} />
-            <AddNew {...props}/>
+			<AddNew {...props} />
 		</div>
 	)
 }

@@ -1,14 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
 import Home from './pages/home/home-page';
 import Login from './pages/login/login-page';
 import User from './pages/user/user-page';
+import Task from './pages/user/task-detail';
 import Register from './components/register-new';
-import Add from './pages/add/add-new-task';
-import {AuthProvider} from './components/credentialContext'
+import { AuthProvider } from './components/credentialContext'
 
 function App() {
-	// const [currentUserName, setCurrentUserName] = useState("");
 	return (
 		<BrowserRouter>
 			<AuthProvider>
@@ -16,10 +14,11 @@ function App() {
 					<Route path="/">
 						<Route index element={<Home />} />
 						<Route path="login" element={<Login />} />
-						{/* <Route path="register" element={(<div>Hello</div>)} /> */}
 						<Route path="register" element={<Register />} />
-						<Route path="user/:id" element={<User />}/>
-						<Route path="user/:id/add" element={<Add />}/>
+						<Route path="user/:id" element={<User />}>
+							<Route path=":taskId" element={<Task />} />
+							<Route index element={(<h1>Click one task from the task list.</h1>)} />
+						</Route>
 					</Route>
 				</Routes>
 			</AuthProvider>
