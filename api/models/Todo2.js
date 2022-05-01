@@ -34,7 +34,9 @@ const TodoSchema = new Schema({
 
 const UserSchema = new Schema({
     user: { type: String, required: true },
-    password: { type: String, rquired: true }
+    password: { type: String, rquired: true },
+    isAdmin: { type: Boolean, default: false },
+    rightGranted: { type: Boolean, default: false }
 });
 
 // const Todo = mongoose.model("Todo", TodoSchema);
