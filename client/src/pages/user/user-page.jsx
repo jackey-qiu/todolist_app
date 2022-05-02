@@ -44,16 +44,17 @@ const User = () => {
         <div>
             <NarBar currentUserName={loginInfo.loginState ? loginInfo.userName : `${params.id} please login first`} />
             <h4>Your tasks are listed below</h4>
-            <div className="header">
-                <h3 className='count'>You have {todos.filter(todo => !todo.complete).length} tasks left to do!</h3>
-                <h3 className="add" onClick={() => setPopState(pre => !pre)}>{popState ? "hide" : "add new task"}</h3>
-                <input className='search'
-                    placeholder="search task..."
-                    value={searchItem}
-                    onChange={e => setSearchItem(e.target.value)} />
-            </div>
+
             <div className="todo-container">
                 <div className="todo-item1">
+                    <div className="header">
+                        <h3 className='count'>You have {todos.filter(todo => !todo.complete).length} tasks left to do!</h3>
+                        <h3 className="add" onClick={() => setPopState(pre => !pre)}>{popState ? "hide" : "add new task"}</h3>
+                        <input className='search'
+                            placeholder="search task..."
+                            value={searchItem}
+                            onChange={e => setSearchItem(e.target.value)} />
+                    </div>
                     <Todo className="todolist" todos={todos}
                         setTodos={setTodos}
                         idRef={idRef}

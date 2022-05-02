@@ -86,11 +86,15 @@ app.post("/api/todo/login", (req, res, next) => {
         if (err) throw err;
         if (!user) res.send({...info, status: false });
         else {
-            req.login(user, (err) => {
-                if (err) res.send(err);
-                res.send({ message: `Success to login ${req.user.user}!`, status: true });
-                //console.log(req.user);
-            });
+            if(user.rightGranted) {
+                req.login(user, (err) => {
+                    if (err) res.send(err);
+                    res.send({ message: `Success to login ${req.user.user}!`, status: true });
+                    // console.log(user);
+                });
+            } else {
+                res.send({ message: `Right for ${user.user} was not granted yet, be patient for admin to grant your right!`, status: false});
+            }
         }
     })(req, res, next);
 });
