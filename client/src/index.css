@@ -85,6 +85,21 @@ h4 {
     transition: 0.4s;
 }
 
+.detail {
+    border-style: solid;
+    border-radius: 20px;
+    border-color: #61759b;
+    background-color: var(--dark-alt);
+    /* background-image: linear-gradient(to top, transparent, transparent); */
+    transition: 0.4s;
+}
+
+.detail:hover {
+    opacity: 0.8;
+    background-color: #131A26;
+    border-color: #8A4EFC;
+}
+
 .todo.urgent {
     background-color: #8A4EFC;
     font-size: large;
@@ -243,6 +258,13 @@ h4 {
     padding: 16px;
     border-radius: 16px;
     width: 100%;
+    box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.2);
+    font-size: 20px;
+}
+
+.todo-input {
+    background-color: #FFF;
+    border-radius: 16px;
     box-shadow: 0px 2px 24px rgba(0, 0, 0, 0.2);
     font-size: 20px;
 }

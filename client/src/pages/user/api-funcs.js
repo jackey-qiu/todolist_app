@@ -1,7 +1,7 @@
 import Axios from "axios";
 const api_base = 'http://localhost:3001'
 
-async function completeTodo (id, todos, setTodos) {
+async function completeTodo(id, todos, setTodos) {
     const data = await fetch(api_base + '/api/todo/complete/' + id).then(res => res.json());
     setTodos(todos => todos.map(todo => {
         if (todo._id === data._id) {
@@ -11,7 +11,7 @@ async function completeTodo (id, todos, setTodos) {
     }));
 };
 
-async function deleteTodo(id, todos, setTodos, idRef, urgents,setUrgents, passEvents,setPassEvents) {
+async function deleteTodo(id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents) {
     const data = await fetch(api_base + '/api/todo/delete/' + id, { method: "DELETE" }).then(res => res.json());
     idRef.current.forEach(each => clearTimeout(each));
     idRef.current = [];
@@ -28,7 +28,7 @@ async function deleteTodo(id, todos, setTodos, idRef, urgents,setUrgents, passEv
     setTodos(todos => todos.filter(todo => todo._id !== data.result._id));
 };
 
-async function addTodo (newTodo, startTime, currentUserName, todos, setTodos, urgents, setUrgents, passEvents, setPassEvents, setNewTodo) {
+async function addTodo(newTodo, startTime, currentUserName, todos, setTodos, urgents, setUrgents, passEvents, setPassEvents, setNewTodo) {
     const data = await Axios({
         url: api_base + "/api/todo/new",
         method: "POST",
@@ -51,6 +51,23 @@ async function addTodo (newTodo, startTime, currentUserName, todos, setTodos, ur
     setNewTodo("");
 };
 
+async function updateTodo(newTodoText, newTodoStartTime, id) {
+    const data = await Axios({
+        url: api_base + "/api/todo/update/" + id,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        withcredentials: true,
+        data: {
+            text: newTodoText,
+            starttime: newTodoStartTime
+        }
+    }).then(res => res.data)
+        .catch((err) => console.log("Error: ", err));
+    return data
+};
+
 const register = async (userName, password) => {
     const res = await Axios({
         url: api_base + "/api/todo/register",
@@ -64,15 +81,15 @@ const register = async (userName, password) => {
             password: password
         }
     }).then(res => {
-        return {state:res.data.state, msg: res.data.msg}
+        return { state: res.data.state, msg: res.data.msg }
     }).catch(
         (err) => console.log("Error: ", err)
     );
     return res
 };
-    
+
 async function getTodos(currentUserName, state) {
-    if(!state){return []}
+    if (!state) { return [] }
     const data = await fetch(api_base + '/api/todos', {
         method: "POST",
         headers: {
@@ -84,12 +101,12 @@ async function getTodos(currentUserName, state) {
         })
     })
         .then(res => res.json())
-        .then(data=>data)
+        .then(data => data)
         .catch((err) => console.log("Error: ", err));
     return data;
 }
 
-async function addOneTodo(newTodo, startTime, currentUserName){
+async function addOneTodo(newTodo, startTime, currentUserName) {
     const data = await Axios({
         url: api_base + "/api/todo/new",
         method: "POST",
@@ -112,6 +129,7 @@ async function addOneTodo(newTodo, startTime, currentUserName){
 export {
     completeTodo,
     deleteTodo,
+    updateTodo,
     addTodo,
     addOneTodo,
     getTodos,

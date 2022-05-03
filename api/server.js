@@ -28,9 +28,9 @@ const Todo = db_todo.model('Todo', schema.TodoSchema);
 const db_user_info = mongoose.connection.useDb('myDB_user_info');
 const User = db_user_info.model('User', schema.UserSchema);
 const sessionStore = MongoStore.create({ mongoUrl: process.env['ATLAS'], collectionName: 'sessions' })
-    // app.use(express.json());
-    // app.use(cors());
-    // Middleware
+// app.use(express.json());
+// app.use(cors());
+// Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
@@ -43,7 +43,7 @@ app.use(
         secret: "secretcode",
         resave: true,
         saveUninitialized: true
-            // store: sessionStore
+        // store: sessionStore
     })
 );
 app.use(cookieParser("secretcode"));
@@ -54,7 +54,7 @@ app.use(passport.session());
 
 require("./passportConfig")(passport, User);
 
-app.post('/api/todos', async(req, res) => {
+app.post('/api/todos', async (req, res) => {
     const todos = await Todo.find({ user: req.body.user });
     res.json(todos.sort((a, b) => { return (new Date(a.starttime) - new Date(b.starttime)) }));
 });
@@ -84,16 +84,16 @@ app.post('/api/todo/register_', (req, res) => {
 app.post("/api/todo/login", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
         if (err) throw err;
-        if (!user) res.send({...info, status: false });
+        if (!user) res.send({ ...info, status: false });
         else {
-            if(user.rightGranted) {
+            if (user.rightGranted) {
                 req.login(user, (err) => {
                     if (err) res.send(err);
                     res.send({ message: `Success to login ${req.user.user}!`, status: true });
                     // console.log(user);
                 });
             } else {
-                res.send({ message: `Right for ${user.user} was not granted yet, be patient for admin to grant your right!`, status: false});
+                res.send({ message: `Right for ${user.user} was not granted yet, be patient for admin to grant your right!`, status: false });
             }
         }
     })(req, res, next);
@@ -105,7 +105,7 @@ app.get('/api/todo/logout', (req, res, next) => {
 });
 
 app.post("/api/todo/register", (req, res) => {
-    User.findOne({ user: req.body.user }, async(err, doc) => {
+    User.findOne({ user: req.body.user }, async (err, doc) => {
         if (err) throw err;
         if (doc) res.json({ msg: "User already exists, try again please!", state: false });
         if (!doc) {
@@ -121,13 +121,13 @@ app.post("/api/todo/register", (req, res) => {
     });
 });
 
-app.delete('/api/todo/delete/:id', async(req, res) => {
+app.delete('/api/todo/delete/:id', async (req, res) => {
     const result = await Todo.findByIdAndDelete(req.params.id);
 
     res.json({ result });
 });
 
-app.get('/api/todo/complete/:id', async(req, res) => {
+app.get('/api/todo/complete/:id', async (req, res) => {
     const todo = await Todo.findById(req.params.id);
 
     todo.complete = !todo.complete;
@@ -137,10 +137,11 @@ app.get('/api/todo/complete/:id', async(req, res) => {
     res.json(todo);
 })
 
-app.put('/api/todo/update/:id', async(req, res) => {
+app.put('/api/todo/update/:id', async (req, res) => {
     const todo = await Todo.findById(req.params.id);
 
     todo.text = req.body.text;
+    todo.starttime = req.body.starttime;
 
     todo.save();
 

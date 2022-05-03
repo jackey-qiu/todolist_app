@@ -1,5 +1,5 @@
 import Axios from "axios";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../components/credentialContext';
 import { addOneTodo, api_base } from '../pages/user/api-funcs';
@@ -8,7 +8,11 @@ export default function AddTodo(props) {
     const { todos, setTodos, urgents, setUrgents, passEvents, setPassEvents } = props;
     const { loginInfo } = useAuth();
     const [newTodo, setNewTodo] = useState('');
-    const [startTime, setStartTime] = useState('');
+    const [startTime, setStartTime] = useState(() => {
+        var now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        return now.toISOString().slice(0, 16);
+    });
     const [addState, setAddState] = useState('Editing the new task!!');
 
     const addOne = async () => {
@@ -31,7 +35,7 @@ export default function AddTodo(props) {
                 <h3>Add Task</h3>
                 <input autoFocus type="text" className="add-todo-input" onChange={e => setNewTodo(e.target.value)} value={newTodo} />
                 <label htmlFor="meeting-time"><h3>Choose a time for this event:</h3></label>
-                <input type="datetime-local" id="meeting-time" className="meeting-time" onChange={e => setStartTime(e.target.value)}></input>
+                <input type="datetime-local" id="meeting-time" className="meeting-time" value={startTime} onChange={e => setStartTime(e.target.value)}></input>
                 <p className="text">{addState}</p>
                 <div className="button" onClick={addOne}>Create Task</div>
             </div>
