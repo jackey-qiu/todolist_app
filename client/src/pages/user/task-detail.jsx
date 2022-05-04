@@ -25,8 +25,6 @@ export default function Task() {
     const addOne = async () => {
 		if (window.confirm("This will create a new task. Are you sure?")){
 			const data = await addOneTodo(taskName, startTime, loginInfo.userName);
-
-			console.log(data);
 			if (data) {
 				setTodos(pre=>[...pre, data]);
 				setUrgents(pre=>[...pre, false]);
@@ -39,7 +37,7 @@ export default function Task() {
 	if (todo) {
 		return (
 			<div className="detail">
-				<h1 style={{ "textAlign": "center", "margin": 0, "border": 0, "backgroundColor": "blue", "borderRadius": "10px" }}>Task Details</h1>
+				<h1 style={{ "textAlign": "center", "margin": 0, "border": 0, "backgroundColor": "blue", "borderRadius": "15px" }}>Task Details</h1>
 				<div style={{ "display": "flex", "alignItems": "stretch" }}>
 					<h3 style={{ "textAlign": "center", "backgroundColor": "red", "margin": "5px 5px", "padding": "5px 20px" }}>Task</h3>
 					<input className="todo-input-test" type="text" style={{ "width": "100%", "margin": "0px 0px", "padding": "5px 0px" }} onChange={e => setTaskName(e.target.value)} value={taskName} />
@@ -57,7 +55,7 @@ export default function Task() {
 						For additional information, please refer to our detailed description of the symposium and the symposium's program."
 					</textarea>
 				</div>
-				<div className="container" style={{"display":"flex"}}>
+				<div className="container" style={{"display":"flex", "justifyContent":"space-between", "marginBottom":"20px"}}>
 					<div className="button" onClick={updateTask} style={{ "textAlign": "center" }}>Update Task</div>
 					<div className="button" onClick={addOne} style={{ "textAlign": "center" }}>New Task</div>
 				</div>

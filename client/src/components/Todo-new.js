@@ -1,10 +1,12 @@
 import { completeTodo, deleteTodo } from "../pages/user/api-funcs";
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 
 export default function Todo({ todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents, searchItem }) {
 	// console.log("component", urgents.current);
 	const [currentPage, setCurrentPage] = useState(1);
+	const params = useParams();
+	const navigate = useNavigate();
 
 	const handleMoveToNextPage = () => {
 		if ((currentPage + 1) <= Math.ceil(todos.length / 10)) {
@@ -15,6 +17,17 @@ export default function Todo({ todos, setTodos, idRef, urgents, setUrgents, pass
 	const handleMoveToPrePage = () => {
 		if ((currentPage - 1) >= 1) {
 			setCurrentPage(pre => pre - 1)
+		}
+	};
+
+	const handleDeleteEvent = async (i) => {
+		if(params.taskId===todos[i]._id) {
+			//redirect to previous or next task
+			navigate(todos[(i+1)===todos.length?(i-1):(i+1)]._id);
+			deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents);
+			// console.log(i, params.taskId, todos[i]._id)
+		} else {
+			deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents);
 		}
 	};
 
@@ -55,7 +68,8 @@ export default function Todo({ todos, setTodos, idRef, urgents, setUrgents, pass
 						>
 							<div className="text">{todos[i].text + "@" + todos[i].starttime}</div>
 						</NavLink>
-						<div className="delete-todo" onClick={() => deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents)}>x</div>
+						{/* <div className="delete-todo" onClick={() => deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents)}>x</div> */}
+						<div className="delete-todo" onClick={() => handleDeleteEvent(i)}>x</div>
 					</div>)
 			}
 		}

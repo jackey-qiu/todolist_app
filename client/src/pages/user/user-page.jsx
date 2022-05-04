@@ -49,7 +49,7 @@ const User = () => {
                 <div className="todo-item1">
                     <div className="header">
                         <h3 className='count'>You have {todos.filter(todo => !todo.complete).length} tasks left to do!</h3>
-                        <h3 className="add" onClick={() => setPopState(pre => !pre)}>{popState ? "hide" : "add new task"}</h3>
+                        {/* <h3 className="add" onClick={() => setPopState(pre => !pre)}>{popState ? "hide" : "add new task"}</h3> */}
                         <input className='search'
                             placeholder="search task..."
                             value={searchItem}
@@ -69,7 +69,7 @@ const User = () => {
                 </div>
             </div>
 
-            {popState && <AddTodo className="popupwindow" {...{ todos, setTodos, urgents, setUrgents, passEvents, setPassEvents }} />}
+            {/* {popState && <AddTodo className="popupwindow" {...{ todos, setTodos, urgents, setUrgents, passEvents, setPassEvents }} />} */}
         </div>
     )
 };
