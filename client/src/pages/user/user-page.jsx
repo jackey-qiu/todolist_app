@@ -65,7 +65,7 @@ const User = () => {
                         searchItem={searchItem} />
                 </div>
                 <div className="todo-item2">
-                    <Outlet context={[todos, setTodos]} />
+                    <Outlet context={[todos, setTodos, setUrgents, setPassEvents]} />
                 </div>
             </div>
 
