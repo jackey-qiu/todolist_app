@@ -10,6 +10,10 @@ const TodoSchema = new Schema({
         type: String,
         required: true
     },
+    detail: {
+        type: String,
+        default: "task details"
+    },
     complete: {
         type: Boolean,
         default: false

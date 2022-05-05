@@ -51,7 +51,7 @@ async function addTodo(newTodo, startTime, currentUserName, todos, setTodos, urg
     setNewTodo("");
 };
 
-async function updateTodo(newTodoText, newTodoStartTime, id) {
+async function updateTodo(newTodoText, newTodoStartTime, taskDetail, id) {
     const data = await Axios({
         url: api_base + "/api/todo/update/" + id,
         method: "PUT",
@@ -61,7 +61,8 @@ async function updateTodo(newTodoText, newTodoStartTime, id) {
         withcredentials: true,
         data: {
             text: newTodoText,
-            starttime: newTodoStartTime
+            starttime: newTodoStartTime,
+            detail: taskDetail
         }
     }).then(res => res.data)
         .catch((err) => console.log("Error: ", err));
@@ -106,7 +107,7 @@ async function getTodos(currentUserName, state) {
     return data;
 }
 
-async function addOneTodo(newTodo, startTime, currentUserName) {
+async function addOneTodo(newTodo, startTime, currentUserName, taskDetail) {
     const data = await Axios({
         url: api_base + "/api/todo/new",
         method: "POST",
@@ -117,7 +118,8 @@ async function addOneTodo(newTodo, startTime, currentUserName) {
         data: {
             text: newTodo,
             starttime: startTime,
-            user: currentUserName
+            user: currentUserName,
+            detail: taskDetail,
         }
     }).then(res => res.data)
         .catch((err) => console.log("Error: ", err));

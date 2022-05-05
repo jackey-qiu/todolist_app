@@ -64,6 +64,7 @@ app.post('/api/todo/new', (req, res) => {
         user: req.body.user,
         password: req.body.password,
         text: req.body.text,
+        detail: req.body?.detail || "task details",
         starttime: req.body.starttime
     })
 
@@ -145,6 +146,7 @@ app.put('/api/todo/update/:id', async (req, res) => {
 
     todo.text = req.body.text;
     todo.starttime = req.body.starttime;
+    todo.detail = req.body.detail;
 
     todo.save();
 
