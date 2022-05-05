@@ -54,10 +54,10 @@ app.use(passport.session());
 
 require("./passportConfig")(passport, User);
 
-app.post('/api/todos', async (req, res) => {
-    const todos = await Todo.find({ user: req.body.user });
-    res.json(todos.sort((a, b) => { return (new Date(a.starttime) - new Date(b.starttime)) }));
-});
+// app.post('/api/todos', async (req, res) => {
+//     const todos = await Todo.find({ user: req.body.user });
+//     res.json(todos.sort((a, b) => { return (new Date(a.starttime) - new Date(b.starttime)) }));
+// });
 
 app.post('/api/todo/new', (req, res) => {
     const todo = new Todo({
@@ -82,14 +82,17 @@ app.post('/api/todo/register_', (req, res) => {
 });
 
 app.post("/api/todo/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", async (err, user, info) => {
         if (err) throw err;
         if (!user) res.send({ ...info, status: false });
         else {
             if (user.rightGranted) {
+                const todos = await Todo.find({ user: user.user });
+                const todos_sorted = todos.sort((a, b) => { return (new Date(a.starttime) - new Date(b.starttime)) });
+                //console.log(todos_sorted);
                 req.login(user, (err) => {
                     if (err) res.send(err);
-                    res.send({ message: `Success to login ${req.user.user}!`, status: true });
+                    res.send({ message: `Success to login ${req.user.user}!`, status: true, todos: todos_sorted });
                     // console.log(user);
                 });
             } else {

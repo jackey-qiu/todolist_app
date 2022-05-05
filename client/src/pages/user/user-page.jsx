@@ -9,30 +9,33 @@ import { useParams, Outlet } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
 const User = () => {
-    const { loginInfo } = useAuth();
-    const [todos, setTodos] = useState([]);
+    const { loginInfo, todos, setTodos } = useAuth();
+    //const [todos, setTodos] = useState([]);
     const [urgents, setUrgents] = useState([]);
     const [passEvents, setPassEvents] = useState([]);
-    const [popState, setPopState] = useState(false);
     const idRef = useRef([]);
     const idPassRef = useRef([])
     const params = useParams();
     const [searchItem, setSearchItem] = useState("");
-    // const [addingState, setAddingState] = false;
 
-    // const state = state0!==null?state0:{state:false}
-    // console.log({state});
+    // useEffect(() => {
+    //     getTodos(params.id, loginInfo.loginState).then((data) => {
+    //         setUrgents(Array(data.length).fill(false));
+    //         setPassEvents(Array(data.length).fill(false));
+    //         setTodos(data);
+    //     })
+    // }, [])
+
     useEffect(() => {
-        getTodos(params.id, loginInfo.loginState).then((data) => {
-            setUrgents(Array(data.length).fill(false));
-            setPassEvents(Array(data.length).fill(false));
-            setTodos(data);
-        })
+        setUrgents(Array(todos.length).fill(false));
+        setPassEvents(Array(todos.length).fill(false));
+
     }, [])
 
     //reschedule events whenever update of todos
     useEffect(() => {
         scheduleEvent(todos, idRef, idPassRef, setUrgents, setPassEvents);
+        localStorage.setItem('todo-app-todos', JSON.stringify(todos));
         //here cleanup the scheduled timeout events
         return () => {
             idRef.current.forEach((each) => { clearTimeout(each) });
