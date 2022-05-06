@@ -50,7 +50,7 @@ export default function Task() {
 				</div>
 				{/* <h2 style={{ "margin": "20px" }}>Time: {todo.starttime}</h2> */}
 				<div style={{ "margin": "10px", "padding": "5", "color": "white", "fontsize": "6", "lineHeight": "130%", "letterSpacing": "1px", "textAlign": "justify" }}>
-					<textarea value={taskDetail} onChange={e => setTaskDetail(e.target.value)} style={{ "width": "600px", "height": "500px", "backgroundColor": "black", "color": "white", "fontsize": "6", "lineHeight": "130%", "letterSpacing": "1px", "textAlign": "justify" }}>
+					<textarea value={taskDetail} onChange={e => setTaskDetail(e.target.value)} style={{ "display": "block", "margin": "0px", "width": "600px", "height": "500px", "backgroundColor": "black", "color": "white", "fontsize": "6", "lineHeight": "130%", "letterSpacing": "1px", "textAlign": "justify" }}>
 						{taskDetail}
 					</textarea>
 				</div>

@@ -69,6 +69,22 @@ async function updateTodo(newTodoText, newTodoStartTime, taskDetail, id) {
     return data
 };
 
+async function updateUsers(users) {
+    const data = await Axios({
+        url: api_base + "/api/user/update",
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        withcredentials: true,
+        data: {
+            users: users
+        }
+    }).then(res => res.data)
+        .catch((err) => console.log("Error: ", err));
+    return data
+};
+
 const register = async (userName, password) => {
     const res = await Axios({
         url: api_base + "/api/todo/register",
@@ -132,6 +148,7 @@ export {
     completeTodo,
     deleteTodo,
     updateTodo,
+    updateUsers,
     addTodo,
     addOneTodo,
     getTodos,

@@ -8,6 +8,7 @@ const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem("todo-app-todos")) || []);
+    const [users, setUsers] = useState([]);
     const [loginInfo, setLoginInfo] = useState(JSON.parse(localStorage.getItem("todo-app-login")) || {
         userName: '',
         password: null,
@@ -16,6 +17,37 @@ const AuthProvider = ({ children }) => {
     });
     // setLoginInfo(JSON.parse(localStorage.getItem("todo-app-user")) || loginInfo)
     //setTodos(JSON.parse(localStorage.getItem("todo-app-todos")) || todos)
+
+    const handleLoginAdmin = async () => {
+        // setLoginInfo((pre) => { return { ...pre, loginMsg: "login successfully faked msg", loginState: true } });
+        // setTimeout(() => navigate(`/user/${loginInfo.userName}`), 2000);
+        // return null;
+        await Axios({
+            url: api_base + "/api/todo/login/admin",
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            // credentials: 'include',
+            data: {
+                user: loginInfo.userName,
+                password: loginInfo.password
+            }
+        }).then(res => {
+            //setRegisterState(res.data.msg);
+            //return res.data.state
+            setLoginInfo((pre) => { return { ...pre, loginMsg: res.data.message, loginState: res.data.status } })
+            if (res.data.status) {
+                setUsers(res.data.users);
+                localStorage.setItem('todo-app-users', JSON.stringify(users));
+                setTimeout(() => navigate("/user/admin", { state: { users: res.data.users } }), 100);
+            } else {
+                navigate('/login/admin')
+            }
+        }).catch(
+            (err) => console.log("Error: ", err)
+        );
+    };
 
     const handleLogin = async () => {
         // setLoginInfo((pre) => { return { ...pre, loginMsg: "login successfully faked msg", loginState: true } });
@@ -67,6 +99,7 @@ const AuthProvider = ({ children }) => {
         loginInfo,
         setLoginInfo,
         onLogin: handleLogin,
+        onLoginAdmin: handleLoginAdmin,
         onLogout: handleLogout,
     };
 

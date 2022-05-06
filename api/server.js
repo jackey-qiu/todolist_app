@@ -103,6 +103,26 @@ app.post("/api/todo/login", (req, res, next) => {
     })(req, res, next);
 });
 
+app.post("/api/todo/login/admin", (req, res, next) => {
+    passport.authenticate("local", async (err, user, info) => {
+        if (err) throw err;
+        if (!user) res.send({ ...info, status: false });
+        else {
+            if (user.isAdmin) {
+                const users = await User.find();
+                //console.log(todos_sorted);
+                req.login(user, (err) => {
+                    if (err) res.send(err);
+                    res.send({ message: `Success to login ${req.user.user}!`, status: true, users: users });
+                    // console.log(user);
+                });
+            } else {
+                res.send({ message: "You currently have no admin right!", status: false });
+            }
+        }
+    })(req, res, next);
+});
+
 app.get('/api/todo/logout', (req, res, next) => {
     req.logout();
     res.send('Logout successfully!');
@@ -153,4 +173,14 @@ app.put('/api/todo/update/:id', async (req, res) => {
     res.json(todo);
 });
 
+app.put('/api/user/update', async (req, res) => {
+    req.body.users.forEach(async user => {
+        const currentUser = await User.findById(user._id);
+        currentUser.isAdmin = user.isAdmin;
+        currentUser.rightGranted = user.rightGranted;
+        currentUser.save();
+        console.log(user);
+    });
+    res.send("User info has been updated successfully!")
+});
 app.listen(3001);
