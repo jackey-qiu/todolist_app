@@ -21,11 +21,14 @@ export default function Todo({ todos, setTodos, idRef, urgents, setUrgents, pass
 	};
 
 	const handleDeleteEvent = async (i) => {
-		if(params.taskId===todos[i]._id) {
+		if (params.taskId === todos[i]._id && todos.length !== 1) {
 			//redirect to previous or next task
-			navigate(todos[(i+1)===todos.length?(i-1):(i+1)]._id);
+			navigate(todos[(i + 1) === todos.length ? (i - 1) : (i + 1)]._id);
 			deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents);
 			// console.log(i, params.taskId, todos[i]._id)
+		} else if (todos.length === 1) {
+			navigate("../user/" + params.id);
+			deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents);
 		} else {
 			deleteTodo(todos[i]._id, todos, setTodos, idRef, urgents, setUrgents, passEvents, setPassEvents);
 		}
